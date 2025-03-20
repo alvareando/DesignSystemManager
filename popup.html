@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Design Token Studio</title>
+    <link rel="stylesheet" href="styles/popup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Design Token Studio</h1>
+            <div class="actions">
+                <button id="exportBtn" class="btn-secondary">Export</button>
+                <button id="saveBtn" class="btn-primary">Save</button>
+            </div>
+        </header>
+
+        <div class="client-section">
+            <div class="client-selector">
+                <select id="clientSelect" class="client-dropdown">
+                    <option value="" disabled selected>Select a client</option>
+                </select>
+                <button id="addClientBtn" class="add-client-btn" title="Add Client">+</button>
+            </div>
+            <div id="clientManagement" class="client-management" style="display: none;">
+                <button id="editClientBtn" class="client-action-btn" title="Edit Client Name">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    Edit
+                </button>
+                <button id="deleteClientBtn" class="client-action-btn danger" title="Delete Client">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    Delete
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Sidebar for token navigation -->
+            <div class="sidebar">
+                <!-- Token level tabs -->
+                <div class="level-tabs">
+                    <button class="level-tab active" data-level="primitives">
+                        <span class="tab-icon primitives"></span>
+                        <span class="tab-label">Primitives</span>
+                    </button>
+                    <button class="level-tab" data-level="aliases">
+                        <span class="tab-icon aliases"></span>
+                        <span class="tab-label">Aliases</span>
+                    </button>
+                    <button class="level-tab" data-level="tokens">
+                        <span class="tab-icon tokens"></span>
+                        <span class="tab-label">Tokens</span>
+                    </button>
+                </div>
+                
+                <!-- Folder navigation -->
+                <div class="folder-navigation">
+                    <div class="folder-tree" id="folder-tree-primitives">
+                        <!-- Dynamic folder tree will be rendered here -->
+                    </div>
+                    <div class="folder-tree" id="folder-tree-aliases" style="display: none;">
+                        <!-- Dynamic folder tree will be rendered here -->
+                    </div>
+                    <div class="folder-tree" id="folder-tree-tokens" style="display: none;">
+                        <!-- Dynamic folder tree will be rendered here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main token editor area -->
+            <div class="token-editor" id="tokenEditor">
+                <!-- Section for each token level (only active one will be shown) -->
+                <div class="token-level-section active" data-level="primitives">
+                    <div class="tokens-container">
+                        <!-- Token list will be rendered here -->
+                        <div class="token-list" id="primitives-tokens"></div>
+                        
+                        <!-- Add token button -->
+                        <div class="add-token-container">
+                            <button id="add-primitive-token" class="add-token-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                                <span>Add Primitive</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="token-level-section" data-level="aliases">
+                    <div class="tokens-container">
+                        <!-- Token list will be rendered here -->
+                        <div class="token-list" id="aliases-tokens"></div>
+                        
+                        <!-- Add token button -->
+                        <div class="add-token-container">
+                            <button id="add-alias-token" class="add-token-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                                <span>Add Alias</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="token-level-section" data-level="tokens">
+                    <div class="tokens-container">
+                        <!-- Token list will be rendered here -->
+                        <div class="token-list" id="tokens-tokens"></div>
+                        
+                        <!-- Add token button -->
+                        <div class="add-token-container">
+                            <button id="add-component-token" class="add-token-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                                <span>Add Component Token</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Token Modal -->
+    <div id="addTokenModal" class="modal">
+        <div class="modal-content">
+            <h2>Add Token</h2>
+            <div class="token-form">
+                <div class="form-group">
+                    <label for="tokenName">Name</label>
+                    <input type="text" id="tokenName" placeholder="e.g., primary-color">
+                </div>
+                <div class="form-group">
+                    <label for="tokenType">Type</label>
+                    <select id="tokenType">
+                        <option value="colors">Color</option>
+                        <option value="typography">Typography</option>
+                        <option value="spacing">Spacing</option>
+                        <option value="sizing">Sizing</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tokenFolder">Folder</label>
+                    <select id="tokenFolder">
+                        <option value="root">Root</option>
+                        <!-- Other folders will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-group" id="colorValueGroup">
+                    <label for="tokenColorValue">Value</label>
+                    <div class="color-input-wrapper">
+                        <input type="color" id="tokenColorPicker">
+                        <input type="text" id="tokenColorValue" placeholder="#000000">
+                    </div>
+                </div>
+                <div class="form-group" id="textValueGroup" style="display: none;">
+                    <label for="tokenTextValue">Value</label>
+                    <input type="text" id="tokenTextValue" placeholder="16px">
+                </div>
+                <div class="form-group" id="referenceValueGroup" style="display: none;">
+                    <label for="tokenReference">Reference</label>
+                    <select id="tokenReference"></select>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button id="addTokenSubmit" class="btn-primary">Add Token</button>
+                <button id="addTokenCancel" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Folder Modal -->
+    <div id="addFolderModal" class="modal">
+        <div class="modal-content">
+            <h2>Add Folder</h2>
+            <div class="folder-form">
+                <div class="form-group">
+                    <label for="folderName">Folder Name</label>
+                    <input type="text" id="folderName" placeholder="Enter folder name">
+                </div>
+                <div class="form-group">
+                    <label for="parentFolder">Parent Folder</label>
+                    <select id="parentFolder">
+                        <option value="root">Root</option>
+                        <!-- Other folders will be populated dynamically -->
+                    </select>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button id="addFolderSubmit" class="btn-primary">Add Folder</button>
+                <button id="addFolderCancel" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <h2>Export Tokens</h2>
+            <select id="exportFormat">
+                <option value="css">CSS Variables</option>
+                <option value="scss">SCSS Variables</option>
+                <option value="json">JSON</option>
+            </select>
+            <textarea id="exportOutput" readonly></textarea>
+            <div class="modal-actions">
+                <button id="copyExport" class="btn-primary">Copy</button>
+                <button id="closeExport" class="btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification toast -->
+    <div id="notification" class="notification">
+        <div class="notification-icon"></div>
+        <div class="notification-message"></div>
+    </div>
+
+    <script src="js/validators.js"></script>
+    <script src="js/tokenManager.js"></script>
+    <script src="js/exportManager.js"></script>
+    <script src="js/popup.js"></script>
+</body>
+</html>
